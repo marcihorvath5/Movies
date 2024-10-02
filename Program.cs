@@ -11,6 +11,7 @@ namespace Filmek
             // Add services to the container.
             builder.Services.AddControllersWithViews();
 
+            // példányosítok egy adatbázist így a program további futása során nem lesz rá szükség
             builder.Services.AddDbContext<MovieDb>();
 
             var app = builder.Build();

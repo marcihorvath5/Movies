@@ -2,6 +2,10 @@
 
 namespace Filmek.Models
 {
+    /// <summary>
+    /// Filmek osztálya és property-jei
+    /// </summary>
+
     public class Movie
     {
         [Key]
@@ -16,6 +20,14 @@ namespace Filmek.Models
         /// össze kapcsolás a ketegória id-jével
         /// </summary>
         public Category Categories { get; set; }
+
+        /// <summary>
+        /// Kollekcióba("listába") gyűjti a kommenteket 
+        /// így létrehozható egy a többhöz kapcsolat 
+        /// tehát egy filmhez több komment is tartozhat
+        /// </summary>
+        public ICollection<Comment> Movies { get; set; }
+
 
     }
 }

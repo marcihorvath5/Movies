@@ -6,8 +6,9 @@
 
         public string Content { get; set; }
 
-        public ICollection<Movie> Comments { get; set; }
-
-        public Movie Movie { get; set; }
+        /// <summary>
+        /// Össze kapcsoljuk a filmid-vel a kommentet
+        /// </summary>
+        //public Movie Movie { get; set; }
     }
 }
