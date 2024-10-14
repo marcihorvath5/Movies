@@ -1,4 +1,6 @@
 using Filmek.Models;
+using Filmek.Service;
+using System.Security.Cryptography.X509Certificates;
 
 namespace Filmek
 {
@@ -11,10 +13,35 @@ namespace Filmek
             // Add services to the container.
             builder.Services.AddControllersWithViews();
 
+            builder.Services.AddScoped<IMovieService, MovieService>();
+
+            
+
             // példányosítok egy adatbázist így a program további futása során nem lesz rá szükség
             builder.Services.AddDbContext<MovieDb>();
 
+            // kapcsolótábla service hozzáadása
+            builder.Services.AddScoped<MovieCategorySyncService>();
+            
+            
+
             var app = builder.Build();
+             // Kapcsoló tábla szinkronizálás hívása
+            using (var scope = app.Services.CreateScope())
+            {
+                var services = scope.ServiceProvider;
+
+                try
+                {
+                    var syncService = services.GetRequiredService<MovieCategorySyncService>();
+                    syncService.SyncIfEmpty();
+                }
+                catch (Exception)
+                {
+
+                    Console.WriteLine("hiba"); ;
+                }
+            }
 
             // Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment())
@@ -33,7 +60,7 @@ namespace Filmek
 
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Home}/{action=Index}/{id?}");
+                pattern: "{controller=Movie}/{action=Index}/{id?}");
 
             app.Run();
         }
