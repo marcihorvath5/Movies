@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.Runtime.CompilerServices;
 
 namespace Filmek.Models
 {
@@ -10,7 +11,13 @@ namespace Filmek.Models
     public class MovieDb : DbContext
     {
         // ConnectionString Server,Adatbázis név megadása
-        private string c = "Server=localhost;Database=MovieDb;Uid=root;Pwd=";
+        private readonly IConfiguration _configuration;
+        
+        //Iconfigurationtt injektáljuk az adatbázis konfigurációjához
+        public MovieDb(IConfiguration configuration)
+        {
+            _configuration = configuration;
+        }
 
         public DbSet<Movie> Movies { get; set; }
 
@@ -20,10 +27,32 @@ namespace Filmek.Models
 
         public DbSet<Comment> Comments { get; set; }
 
+        public DbSet<MovieCategory> MovieCategories { get; set; }
+
         // Adatbázis konfigurálása
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
+            // appsettings.json-ból beolvassok a ConnectionStringet
+            var c = _configuration.GetConnectionString("DefaultConnection");
             optionsBuilder.UseMySql(c,ServerVersion.AutoDetect(c));
         }
+
+        /// <summary>
+        /// Több a többhöz kapcsolat fluent apival
+        /// a filmek és a kategóriák között
+        /// </summary>
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<MovieCategory>().HasKey(x => new { x.MovieId, x.CategoryId});
+            modelBuilder.Entity<MovieCategory>().HasOne(y => y.Movie)
+                                                .WithMany(m => m.MovieCategories)
+                                                .HasForeignKey(mo => mo.MovieId);
+
+            modelBuilder.Entity<MovieCategory>().HasOne(y => y.Category)
+                                                .WithMany(c => c.MovieCategories)
+                                                .HasForeignKey(ca => ca.CategoryId);
+
+        }
+
     }
 }

@@ -18,5 +18,9 @@ namespace Filmek.Models
         [Required]
         public string Name { get; set; }
 
+        /// <summary>
+        /// MovieCategory Icollection a szükséges kapcsolat létrehozásához
+        /// </summary>
+        public ICollection<MovieCategory> MovieCategories { get; set; }
     }
 }

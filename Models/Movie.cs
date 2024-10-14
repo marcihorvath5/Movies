@@ -8,7 +8,7 @@ namespace Filmek.Models
 
     public class Movie
     {
-        [Key]
+        
         public int Id { get; set; }
         
         [Required]
@@ -16,18 +16,29 @@ namespace Filmek.Models
 
         public int Year { get; set; }
 
+        public int Length { get; set; }
+
+        public string Categories { get; set; }
+
+        public string Picture { get; set; }
+
+        public string Publisher { get; set; }
+
         /// <summary>
         /// össze kapcsolás a ketegória id-jével
         /// </summary>
-        public Category Categories { get; set; }
+        //public Category Category { get; set; }
 
         /// <summary>
         /// Kollekcióba("listába") gyűjti a kommenteket 
         /// így létrehozható egy a többhöz kapcsolat 
         /// tehát egy filmhez több komment is tartozhat
         /// </summary>
-        public ICollection<Comment> Movies { get; set; }
+        public ICollection<Comment> Comments { get; set; }
 
-
+        /// <summary>
+        /// MovieCategory Icollection a szükséges kapcsolat létrehozásához
+        /// </summary>
+        public ICollection<MovieCategory> MovieCategories { get; set; }
     }
 }
