@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Filmek.Migrations
 {
     [DbContext(typeof(MovieDb))]
-    [Migration("20241012173537_try2")]
-    partial class try2
+    [Migration("20241021204448_firsttry")]
+    partial class firsttry
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -73,8 +73,20 @@ namespace Filmek.Migrations
 
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("Categories")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
                     b.Property<int>("Length")
                         .HasColumnType("int");
+
+                    b.Property<string>("Picture")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Publisher")
+                        .IsRequired()
+                        .HasColumnType("longtext");
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -100,7 +112,7 @@ namespace Filmek.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("movieCategories");
+                    b.ToTable("MovieCategories");
                 });
 
             modelBuilder.Entity("Filmek.Models.Serie", b =>

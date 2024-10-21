@@ -5,7 +5,7 @@
 namespace Filmek.Migrations
 {
     /// <inheritdoc />
-    public partial class try3 : Migration
+    public partial class trytwo : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

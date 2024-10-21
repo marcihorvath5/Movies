@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Filmek.Migrations
 {
     [DbContext(typeof(MovieDb))]
-    [Migration("20241009212817_kapcsolo")]
-    partial class kapcsolo
+    [Migration("20241021205554_trytwo")]
+    partial class trytwo
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -73,11 +73,20 @@ namespace Filmek.Migrations
 
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("CategoryId")
-                        .HasColumnType("int");
+                    b.Property<string>("Categories")
+                        .IsRequired()
+                        .HasColumnType("longtext");
 
                     b.Property<int>("Length")
                         .HasColumnType("int");
+
+                    b.Property<string>("Picture")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Publisher")
+                        .IsRequired()
+                        .HasColumnType("longtext");
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -87,8 +96,6 @@ namespace Filmek.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CategoryId");
 
                     b.ToTable("Movies");
                 });
@@ -105,7 +112,7 @@ namespace Filmek.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("movieCategories");
+                    b.ToTable("MovieCategories");
                 });
 
             modelBuilder.Entity("Filmek.Models.Serie", b =>
@@ -142,17 +149,6 @@ namespace Filmek.Migrations
                     b.HasOne("Filmek.Models.Movie", null)
                         .WithMany("Comments")
                         .HasForeignKey("MovieId");
-                });
-
-            modelBuilder.Entity("Filmek.Models.Movie", b =>
-                {
-                    b.HasOne("Filmek.Models.Category", "Category")
-                        .WithMany()
-                        .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Category");
                 });
 
             modelBuilder.Entity("Filmek.Models.MovieCategory", b =>

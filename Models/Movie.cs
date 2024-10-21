@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Filmek.Models
 {
@@ -8,7 +10,8 @@ namespace Filmek.Models
 
     public class Movie
     {
-        
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         
         [Required]
@@ -18,11 +21,11 @@ namespace Filmek.Models
 
         public int Length { get; set; }
 
-        public string Categories { get; set; }
+        public string? Categories { get; set; }
 
-        public string Picture { get; set; }
+        public string? Picture { get; set; }
 
-        public string Publisher { get; set; }
+        public string? Publisher { get; set; }
 
         /// <summary>
         /// össze kapcsolás a ketegória id-jével

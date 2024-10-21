@@ -12,7 +12,7 @@ namespace Filmek.Models
 
         /// <summary>
         /// Az adatbázisban módosítjuk a mező nevét
-        /// Megszabjuk hogy kötelező megadin => not null
+        /// Megszabjuk hogy kötelező megadni => not null
         /// </summary>
         [Column("CategoryName")]
         [Required]

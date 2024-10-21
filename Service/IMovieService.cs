@@ -7,5 +7,6 @@ namespace Filmek.Service
         public List<Movie> getMovies();
         public Movie getMovie(int id);
         public bool saveMovie(Movie movie);
+        public List<Category> getCategories();
     }
 }

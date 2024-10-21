@@ -14,6 +14,12 @@ namespace Filmek.Service
         {
             _db = db;
         }
+
+        public List<Category> getCategories()
+        {
+           return _db.Categories.ToList();
+        }
+
         public Movie getMovie(int id)
         {
             return _db.Movies.FirstOrDefault(x => x.Id == id);
@@ -35,6 +41,9 @@ namespace Filmek.Service
 
             catch(Exception ex) 
             {
+                Console.WriteLine(ex.InnerException.Message);
+                Console.ReadLine();
+               
                 return false;
             }
 
