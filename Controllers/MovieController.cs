@@ -17,7 +17,7 @@ namespace Filmek.Controllers
         /// paraméterként átvesszük az interface-t
         /// </summary>
         /// <param name="ims">A megvalósítandó interface</param>
-        public MovieController(IMovieService ims, MovieDb db) 
+        public MovieController(IMovieService ims) 
         {
               _ims = ims;
         }
@@ -58,11 +58,42 @@ namespace Filmek.Controllers
                                    .Where(c => SelectedCategories.Contains(c.Id))
                                    .ToList();
 
-            movie.Categories = string.Join(",", categories.Select(cn => cn.Name));
+            _ims.saveMovie(movie, categories);
 
-            _ims.saveMovie(movie);
 
             return RedirectToAction("Index");
+        }
+
+        // Edit oldal
+        public IActionResult Edit(int id)
+        {
+            var categoriesList = _ims.getCategories().Select(c => new SelectListItem()
+            {
+                Value = c.Id.ToString(),
+                Text = $"{c.Id}-{c.Name}"
+            }).ToList();
+
+            ViewData["c"]= categoriesList;
+
+            Movie movie = _ims.getMovie(id);
+            if (movie == null)
+            {
+                return NoContent();
+            }
+            return View(movie);
+        }
+
+        /// <summary>
+        /// Edit page action
+        /// Bindingolja a movie propertijeit amik megvannak adva
+        /// </summary>
+        /// <param name="movie">Film</param>
+        /// <param name="SelectedCategories">A kiválasztott kategóriák Id-je</param>
+        /// <returns></returns>
+        [HttpPost]
+        public IActionResult Edit([Bind("Id, Title, Year")] Movie movie, List<int> SelectedCategories) 
+        {
+
         }
     }
 }

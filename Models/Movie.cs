@@ -21,8 +21,6 @@ namespace Filmek.Models
 
         public int Length { get; set; }
 
-        public string? Categories { get; set; }
-
         public string? Picture { get; set; }
 
         public string? Publisher { get; set; }
@@ -42,6 +40,6 @@ namespace Filmek.Models
         /// <summary>
         /// MovieCategory Icollection a szükséges kapcsolat létrehozásához
         /// </summary>
-        public ICollection<MovieCategory> MovieCategories { get; set; }
+        public ICollection<MovieCategory> MovieCategories { get; set; } = new List<MovieCategory>();
     }
 }

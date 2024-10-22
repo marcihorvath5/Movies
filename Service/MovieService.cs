@@ -1,4 +1,5 @@
 ﻿using Filmek.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Filmek.Service
 {
@@ -20,23 +21,49 @@ namespace Filmek.Service
            return _db.Categories.ToList();
         }
 
-        public Movie getMovie(int id)
+        /// <summary>
+        /// Vissza adja a kiválasztott filmet a hozzá tartozó kategóriákkal együtt
+        /// </summary>
+        /// <param name="id">A film azonosítója</param>
+        /// <returns></returns>
+        public Movie? getMovie(int id)
         {
-            return _db.Movies.FirstOrDefault(x => x.Id == id);
+            
+            return _db.Movies.Include(x => x.MovieCategories)
+                .ThenInclude(c => c.Category)
+                .Where(x => x.Id == id).FirstOrDefault();
+;
         }
 
         public List<Movie> getMovies()
         {
-            return _db.Movies.ToList();
+            var list = _db.Movies.Include(x => x.MovieCategories)
+                .ThenInclude(c => c.Category)
+                .ToList();
+
+            return list;
         }
 
-        public bool saveMovie(Movie movie)
+        public bool saveMovie(Movie movie,List<Category> categories)
         {
+
             try
             {
                 _db.Movies.Add(movie);
                 _db.SaveChanges();
-                
+
+                foreach (var c in categories)
+                {
+                    movie.MovieCategories.Add(new MovieCategory
+                    {
+                        Movie = movie,
+                        Category = c
+
+                    });    
+                }
+
+                _db.SaveChanges();
+
             }
 
             catch(Exception ex) 

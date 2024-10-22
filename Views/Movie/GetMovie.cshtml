@@ -4,7 +4,11 @@
 *@
 @{
     <h1>@Model.Title</h1>
-    <h2>@Model.Categories</h2>
+    <h2>@foreach (var c in Model.MovieCategories)
+        {
+            @c.Category.Name
+        }
+    </h2>
 
     <img src="@Model.Picture" alt="Should be a picture" />
 }

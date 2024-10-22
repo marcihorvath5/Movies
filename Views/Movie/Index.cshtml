@@ -12,8 +12,12 @@
                 <tr>
                     <td>@item.Id</td>
                     <td>@item.Title</td>
-                    <td>@item.Categories</td>
+                    <td>@foreach (var m in item.MovieCategories )
+                        {                         
+                            @m.Category.Name
+                        }</td>
                     <td>@Html.ActionLink("Details","GetMovie",new {id = item.Id})</td>
+                    <td>@Html.ActionLink("Edit", "Edit", new { id = item.Id })</td>
                 </tr>
             }
  }
