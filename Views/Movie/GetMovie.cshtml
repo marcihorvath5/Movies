@@ -4,9 +4,16 @@
 *@
 @{
     <h1>@Model.Title</h1>
+    <p>Comments (@Model.Comments.Count())</p>
+    <p>@foreach(var comm in Model.Comments)
+        {
+            <p>@comm.Content</p>
+        }
+    </p>
+    <p>@Model.Length perc</p>
     <h2>@foreach (var c in Model.MovieCategories)
         {
-            @c.Category.Name
+            <p>@c.Category.Name</p>
         }
     </h2>
 

@@ -14,8 +14,18 @@
                     <td>@item.Title</td>
                     <td>@foreach (var m in item.MovieCategories )
                         {                         
-                            @m.Category.Name
-                        }</td>
+                            <p>@m.Category.Name, </p>
+                        }
+                    </td>
+                    @* <td>
+                        @item.Length perc
+                    </td> *@
+                    <td>
+                        @item.Year
+                    </td>
+                    <td>
+                        @item.Publisher
+                    </td>
                     <td>@Html.ActionLink("Details","GetMovie",new {id = item.Id})</td>
                     <td>@Html.ActionLink("Edit", "Edit", new { id = item.Id })</td>
                 </tr>

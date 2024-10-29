@@ -35,7 +35,7 @@ namespace Filmek.Models
         /// így létrehozható egy a többhöz kapcsolat 
         /// tehát egy filmhez több komment is tartozhat
         /// </summary>
-        public ICollection<Comment> Comments { get; set; }
+        public ICollection<Comment> Comments { get; set; } = new List<Comment>();
 
         /// <summary>
         /// MovieCategory Icollection a szükséges kapcsolat létrehozásához

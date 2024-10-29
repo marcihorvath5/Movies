@@ -31,6 +31,7 @@ namespace Filmek.Service
             
             return _db.Movies.Include(x => x.MovieCategories)
                 .ThenInclude(c => c.Category)
+                .Include(x => x.Comments)
                 .Where(x => x.Id == id).FirstOrDefault();
 ;
         }
@@ -44,7 +45,7 @@ namespace Filmek.Service
             return list;
         }
 
-        public bool saveMovie(Movie movie,List<Category> categories)
+        public bool saveMovie(Movie movie,List<int> SelectedCategories)
         {
 
             try
@@ -52,6 +53,12 @@ namespace Filmek.Service
                 _db.Movies.Add(movie);
                 _db.SaveChanges();
 
+                // Listát csinálunk a kiválasztott kategóriákból
+                List<Category> categories = getCategories()
+                                            .Where(c => SelectedCategories.Contains(c.Id))
+                                            .ToList();
+
+                // Majd ezen a listán végig megyünk és a filmh Movicategories kollekciójához adjuk
                 foreach (var c in categories)
                 {
                     movie.MovieCategories.Add(new MovieCategory
@@ -75,6 +82,44 @@ namespace Filmek.Service
             }
 
             return true;
+        }
+
+        public bool updateMovie(Movie movie, List<int> categories)
+        {
+            try
+            {
+                // Lekérjük az adatbázisban már meglévő entitást aminek az id-je
+                // egyezik a paraméterként kapott filmével
+                Movie m = _db.Movies.Include(x => x.MovieCategories).FirstOrDefault(m => m.Id == movie.Id);
+                List<Category> selectedCategories = getCategories().Where(c => categories.Contains(c.Id))
+                                                                                            .ToList();
+                // Frissítjük a meglévő entitást
+                m.Title = movie.Title;
+                m.Year = movie.Year;
+
+                // Meglévő kategóriák törlése
+                m.MovieCategories.Clear();
+                // új kategóriák hozzáadása
+                foreach (Category c in selectedCategories)
+                {
+                    m.MovieCategories.Add(new MovieCategory
+                    {
+                        Movie = m,
+                        Category = c,
+                    });
+                }
+
+                _db.Movies.Update(m);
+                _db.SaveChanges();
+                
+                return true;
+            }
+            catch (System.Exception)
+            {       
+                return false;
+            }
+
+            
         }
     }
 }

@@ -6,7 +6,7 @@
 }
 <form asp-action="Edit" method="post">
     <input type="text" asp-for="Title"/>
-    <select name="SelectedCategories[]" multiple="multiple" class="select-category"  asp-items="@(ViewData["c"] as IEnumerable<SelectListItem>)"></select>
-    <input type="text" name="Y" asp-for="Year" />
+    <select name="SelectedCategories[]"  multiple="multiple" class="select-category"  asp-items="@(ViewData["c"] as IEnumerable<SelectListItem>)"></select>
+    <input type="text" asp-for="Year" />
     <input type="submit"/>
 </form>

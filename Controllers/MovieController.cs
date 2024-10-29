@@ -53,12 +53,8 @@ namespace Filmek.Controllers
         public IActionResult CreateMovie(Movie movie, List<int> SelectedCategories)
         {
             // A formtól kapott kategória id-k listájában szereplő id-khez tartozó kategória neveket lekérjük
-            // majd összefűzzük őket
-            var categories = _ims.getCategories()
-                                   .Where(c => SelectedCategories.Contains(c.Id))
-                                   .ToList();
 
-            _ims.saveMovie(movie, categories);
+            _ims.saveMovie(movie, SelectedCategories);
 
 
             return RedirectToAction("Index");
@@ -73,6 +69,7 @@ namespace Filmek.Controllers
                 Text = $"{c.Id}-{c.Name}"
             }).ToList();
 
+            //ViewData-ként adjuk át a viewnak a kategóriák listáját
             ViewData["c"]= categoriesList;
 
             Movie movie = _ims.getMovie(id);
@@ -92,8 +89,19 @@ namespace Filmek.Controllers
         /// <returns></returns>
         [HttpPost]
         public IActionResult Edit([Bind("Id, Title, Year")] Movie movie, List<int> SelectedCategories) 
-        {
+        {   
+            if (movie.Title != null)
+            {
+                _ims.updateMovie(movie, SelectedCategories);    
+            }
 
+            else
+            {
+                return NoContent();
+            }
+            
+
+            return RedirectToAction("GetMovie", new{ id = movie.Id });
         }
     }
 }
