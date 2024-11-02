@@ -38,7 +38,7 @@ namespace Filmek.Controllers
         [HttpPost]
         public IActionResult GetMovie([Bind("Id")] Movie movie, string comment) 
         {
-            if (Comment != null)
+            if (comment != null)
             {
                 _ims.addComment(movie, comment);    
             }
