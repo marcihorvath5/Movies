@@ -34,7 +34,7 @@ namespace Filmek.Service
             //{
             //    ///Kategóriák betöltése
             //    ///white-space karakterek eltávolítása(string.trim())
-            //    ///Karakterek amelyek nem "üresek" vagy white-space-ek listába gíűjtése
+            //    ///Karakterek amelyek nem "üresek" vagy white-space-ek listába gyűjtése
             //    var categoryNames = movie.Categories.Split(',')
             //                                          .Select(c => c.Trim())
             //                                          .Where(c => !string.IsNullOrWhiteSpace(c))

@@ -9,5 +9,6 @@ namespace Filmek.Service
         public bool saveMovie(Movie movie, List<int> cat);
         public List<Category> getCategories();
         public bool updateMovie(Movie movie, List<int> cat);
+        public void addComment(Movie movie, string comment);
     }
 }

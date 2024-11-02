@@ -33,7 +33,6 @@ namespace Filmek.Service
                 .ThenInclude(c => c.Category)
                 .Include(x => x.Comments)
                 .Where(x => x.Id == id).FirstOrDefault();
-;
         }
 
         public List<Movie> getMovies()
@@ -118,8 +117,24 @@ namespace Filmek.Service
             {       
                 return false;
             }
+        }
 
-            
+        /// <summary>
+        /// Komment hozzáadása egy filmhez
+        /// </summary>
+        /// <param name="movie">Az adott film</param>
+        /// <param name="comment">A beírt komment</param>
+        public void addComment(Movie movie, string comment)
+        {
+            Movie m = getMovie(movie.Id);
+            m.Comments.Add(new Comment
+            {
+                Content = comment
+            });
+
+            _db.Movies.Update(m);
+            _db.SaveChanges();
         }
     }
 }
+

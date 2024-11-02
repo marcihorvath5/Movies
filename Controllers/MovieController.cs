@@ -35,10 +35,25 @@ namespace Filmek.Controllers
             return View(_ims.getMovie(id));
         }
 
+        [HttpPost]
+        public IActionResult GetMovie([Bind("Id")] Movie movie, string comment) 
+        {
+            if (Comment != null)
+            {
+                _ims.addComment(movie, comment);    
+            }
+            else
+            {
+                NoContent();
+            }
+            
+            return View(_ims.getMovie(movie.Id));
+        }
+        
         public IActionResult CreateMovie() 
         {
             // lekérjük a kategória táblából a kategóriákat
-            var categories = _ims.getCategories();
+            List<Category> categories = _ims.getCategories();
 
             //Majd ezekből SelectListItemet készítünk és ezt adjuk át a viewnak
             var categoriesList = categories.Select(c => new SelectListItem()
@@ -66,7 +81,8 @@ namespace Filmek.Controllers
             var categoriesList = _ims.getCategories().Select(c => new SelectListItem()
             {
                 Value = c.Id.ToString(),
-                Text = $"{c.Id}-{c.Name}"
+                Text = $"{c.Id}-{c.Name}",
+                Selected = _ims.getMovie(id).MovieCategories.Any(x => x.CategoryId == c.Id)
             }).ToList();
 
             //ViewData-ként adjuk át a viewnak a kategóriák listáját
