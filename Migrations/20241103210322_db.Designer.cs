@@ -12,15 +12,15 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Filmek.Migrations
 {
     [DbContext(typeof(MovieDb))]
-    [Migration("20241021204448_firsttry")]
-    partial class firsttry
+    [Migration("20241103210322_db")]
+    partial class db
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.8")
+                .HasAnnotation("ProductVersion", "8.0.10")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
             MySqlModelBuilderExtensions.AutoIncrementColumns(modelBuilder);
@@ -73,19 +73,13 @@ namespace Filmek.Migrations
 
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Categories")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
                     b.Property<int>("Length")
                         .HasColumnType("int");
 
                     b.Property<string>("Picture")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<string>("Publisher")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<string>("Title")
@@ -123,9 +117,6 @@ namespace Filmek.Migrations
 
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("CategoriesId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("longtext");
@@ -139,9 +130,44 @@ namespace Filmek.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CategoriesId");
-
                     b.ToTable("Series");
+                });
+
+            modelBuilder.Entity("Filmek.Models.SerieCategory", b =>
+                {
+                    b.Property<int>("SerieId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("int");
+
+                    b.HasKey("SerieId", "CategoryId");
+
+                    b.HasIndex("CategoryId");
+
+                    b.ToTable("SerieCategories");
+                });
+
+            modelBuilder.Entity("Filmek.Models.SerieComment", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<int?>("SerieId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SerieId");
+
+                    b.ToTable("SerieComments");
                 });
 
             modelBuilder.Entity("Filmek.Models.Comment", b =>
@@ -170,20 +196,37 @@ namespace Filmek.Migrations
                     b.Navigation("Movie");
                 });
 
-            modelBuilder.Entity("Filmek.Models.Serie", b =>
+            modelBuilder.Entity("Filmek.Models.SerieCategory", b =>
                 {
-                    b.HasOne("Filmek.Models.Category", "Categories")
-                        .WithMany()
-                        .HasForeignKey("CategoriesId")
+                    b.HasOne("Filmek.Models.Category", "Category")
+                        .WithMany("SerieCategories")
+                        .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Categories");
+                    b.HasOne("Filmek.Models.Serie", "Serie")
+                        .WithMany("SerieCategories")
+                        .HasForeignKey("SerieId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Category");
+
+                    b.Navigation("Serie");
+                });
+
+            modelBuilder.Entity("Filmek.Models.SerieComment", b =>
+                {
+                    b.HasOne("Filmek.Models.Serie", null)
+                        .WithMany("SerieComments")
+                        .HasForeignKey("SerieId");
                 });
 
             modelBuilder.Entity("Filmek.Models.Category", b =>
                 {
                     b.Navigation("MovieCategories");
+
+                    b.Navigation("SerieCategories");
                 });
 
             modelBuilder.Entity("Filmek.Models.Movie", b =>
@@ -191,6 +234,13 @@ namespace Filmek.Migrations
                     b.Navigation("Comments");
 
                     b.Navigation("MovieCategories");
+                });
+
+            modelBuilder.Entity("Filmek.Models.Serie", b =>
+                {
+                    b.Navigation("SerieCategories");
+
+                    b.Navigation("SerieComments");
                 });
 #pragma warning restore 612, 618
         }

@@ -19,6 +19,8 @@ namespace Filmek.Models
 
         public string Name { get; set; }
 
-        public Category Categories{ get; set; }
+        public ICollection<SerieComment> SerieComments { get; set; } = new List<SerieComment>();
+
+        public ICollection<SerieCategory> SerieCategories {get; set; } = new List<SerieCategory>();
     }
 }

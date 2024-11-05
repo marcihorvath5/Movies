@@ -22,5 +22,7 @@ namespace Filmek.Models
         /// MovieCategory Icollection a szükséges kapcsolat létrehozásához
         /// </summary>
         public ICollection<MovieCategory>? MovieCategories { get; set; }
+
+        public ICollection<SerieCategory>? SerieCategories { get; set; }
     }
 }
