@@ -33,6 +33,8 @@ namespace Filmek.Models
 
         public DbSet<SerieComment> SerieComments { get; set; }
 
+        public DbSet<Scategory> Scategories { get; set; }
+
         // Adatbázis konfigurálása
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -61,7 +63,7 @@ namespace Filmek.Models
                                                 .WithMany(sc => sc.SerieCategories)
                                                 .HasForeignKey(se => se.SerieId);
             
-            modelBuilder.Entity<SerieCategory>().HasOne(c => c.Category)
+            modelBuilder.Entity<SerieCategory>().HasOne(c => c.Scategory)
                                                 .WithMany(sc => sc.SerieCategories)
                                                 .HasForeignKey(ca => ca.CategoryId);
         }

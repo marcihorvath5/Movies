@@ -15,9 +15,9 @@ namespace Filmek.Models
         [Required]
         public string Title { get; set; }
 
-        public int Year { get; set; }
+        public int? Year { get; set; }
 
-        public string Name { get; set; }
+        public string? Picture { get; set; }
 
         public ICollection<SerieComment> SerieComments { get; set; } = new List<SerieComment>();
 

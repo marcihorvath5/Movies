@@ -6,6 +6,6 @@ namespace Filmek.Models
         public Serie Serie{ get; set;}
 
         public int CategoryId { get; set;}
-        public Category Category{ get; set;}
+        public Scategory Scategory{ get; set;}
     }
 }

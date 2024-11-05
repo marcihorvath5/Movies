@@ -3,10 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Filmek.Models
 {
-    /// <summary>
-    /// Kategóriák osztálya
-    /// </summary>
-    public class Category
+    public class Scategory
     {
         public int Id { get; set; }
 
@@ -21,6 +18,7 @@ namespace Filmek.Models
         /// <summary>
         /// MovieCategory Icollection a szükséges kapcsolat létrehozásához
         /// </summary>
-        public ICollection<MovieCategory>? MovieCategories { get; set; }
+
+        public ICollection<SerieCategory>? SerieCategories { get; set; }
     }
 }
