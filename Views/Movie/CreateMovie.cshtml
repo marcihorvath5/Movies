@@ -12,8 +12,16 @@
     ///
     <form asp-action="CreateMovie" method="post">
         
-        <div>
-            <input type="text" name="Title" placeholder="Type the movie title" />
+        
+        <div class="input-group mb-4 offset-4">
+            <input id="inp" class="form-control" type="text" name="Title" placeholder="Type the movie title" />
+            
+        </div>
+
+        <label for="inp1" class="form-label">más valami</label>
+
+        <div name="inp1" class="input-group mb-4 offset-4">
+
             <select class="select-category" name="SelectedCategories[]" multiple="multiple" asp-items="Model" data-placeholder="SelectCategories">
                     
                 </select>

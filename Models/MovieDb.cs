@@ -14,9 +14,9 @@ namespace Filmek.Models
         private readonly IConfiguration _configuration;
         
         //Iconfigurationtt injektáljuk az adatbázis konfigurációjához
-        public MovieDb(IConfiguration configuration)
+        public MovieDb(IConfiguration configuration, DbContextOptions<MovieDb> db): base(db)
         {
-            _configuration = configuration;
+        
         }
 
         public DbSet<Movie> Movies { get; set; }
@@ -34,14 +34,6 @@ namespace Filmek.Models
         public DbSet<SerieComment> SerieComments { get; set; }
 
         public DbSet<Scategory> Scategories { get; set; }
-
-        // Adatbázis konfigurálása
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            // appsettings.json-ból beolvassok a ConnectionStringet
-            var c = _configuration.GetConnectionString("DefaultConnection");
-            optionsBuilder.UseMySql(c,ServerVersion.AutoDetect(c));
-        }
 
         /// <summary>
         /// Több a többhöz kapcsolat fluent apival

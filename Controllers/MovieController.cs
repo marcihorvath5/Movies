@@ -30,6 +30,16 @@ namespace Filmek.Controllers
             return View(_ims.getMovies()); 
         }
 
+        public IActionResult Index2()
+        {
+            return View(_ims.getMovies());
+        }
+
+        public IActionResult Index3()
+        {
+            return View(_ims.getMovies());
+        }
+
         public IActionResult GetMovie(int id) 
         {
             return View(_ims.getMovie(id));

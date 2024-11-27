@@ -1,5 +1,6 @@
 using Filmek.Models;
 using Filmek.Service;
+using Microsoft.EntityFrameworkCore;
 using System.Security.Cryptography.X509Certificates;
 
 namespace Filmek
@@ -15,10 +16,16 @@ namespace Filmek
 
             builder.Services.AddScoped<IMovieService, MovieService>();
 
-            
+
 
             // példányosítok egy adatbázist így a program további futása során nem lesz rá szükség
-            builder.Services.AddDbContext<MovieDb>();
+            // Adatbázis konfigurálása
+            // appsettings.json-ból beolvassok a ConnectionStringet
+            builder.Services.AddDbContext<MovieDb>(db => 
+                    { 
+                        db.UseMySql(builder.Configuration["ConnectionStrings:DefaultConnection"], 
+                        ServerVersion.AutoDetect(builder.Configuration["ConnectionStrings:DefaultConnection"])); 
+                    });
 
             // kapcsolótábla service hozzáadása
             builder.Services.AddScoped<MovieCategorySyncService>();

@@ -1,0 +1,25 @@
+﻿@model List<Filmek.Models.Movie>
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+
+        <div class="cardholder">  
+
+        @{
+            foreach (var item in Model)
+            {
+                <div class="card cards" style="width:18rem">
+                    <img src="@item.Picture" class="card-img-top"/>
+                    <div class="card-body">
+                        <h5 class="card-title">@item.Title</h5>
+
+                    <button class="btn btn-outline-secondary" onclick="@Url.Action("Details", "GetMovie", new { id = item.Id })">Részletek</button>
+
+                    <button class="btn btn-outline-secondary" onclick="@Url.Action("Edit", "Edit", new { id = item.Id })">Módosítás</button>
+                   
+                    </div>
+                </div>
+            }
+        }
+
+    </div>

@@ -20,3 +20,13 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+.cardholder {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.cards {
+    margin: 5px;
+    border:solid;
+}

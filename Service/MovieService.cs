@@ -91,7 +91,7 @@ namespace Filmek.Service
                 // egyezik a paraméterként kapott filmével
                 Movie m = _db.Movies.Include(x => x.MovieCategories).FirstOrDefault(m => m.Id == movie.Id);
                 List<Category> selectedCategories = getCategories().Where(c => categories.Contains(c.Id))
-                                                                                            .ToList();
+                                                                                                .ToList();
                 // Frissítjük a meglévő entitást
                 m.Title = movie.Title;
                 m.Year = movie.Year;
